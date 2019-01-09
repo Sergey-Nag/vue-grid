@@ -1,0 +1,54 @@
+.item {
+  position: relative;
+  font-size: .8em;
+  border: 1px solid;
+  padding: 6px 5px;
+  border-radius: 3px;
+}
+
+.item.in-list {
+  margin-bottom: 5px;
+}
+
+.item[pfx=""]::before {
+  display: none;
+}
+
+.item[pfx]::before {
+  content: attr(pfx);
+  margin-right: 3px;
+  font-weight: bold;
+}
+
+.item[item-method]::after {
+  content: attr(item-method);
+}
+
+.hover-title {
+  display: none;
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  width: 150px;
+  border-radius: inherit;
+  top: -1px;
+  margin-right: -160px;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+
+.hover-title > .triangle {
+  position: absolute;
+  width: 0px;
+  top: 0;
+  height: 0px;
+  border: solid 5px rgba(0, 0, 0, 0.8);
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  transform: rotate(-45deg);
+}
+
+.item.in-list:hover .hover-title {
+  display: block;
+}

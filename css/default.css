@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
+
+@font-face {
+  font-family: "InputMono";
+  src: url(../fonts/InputMono-Thin.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "InputMono";
+  src: url(../fonts/InputMono-Light.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "InputMono";
+  src: url(../fonts/InputMono-Medium.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 800;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  background: #fbfbfb;
+  font-family: 'InputMono', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+input.theme {
+  border: none;
+  padding: 4px;
+  width: 100%;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+input.theme::placeholder {
+  color: #cdcaca;
+}
+
+input.theme:focus {
+  outline: none;
+  /*  box-shadow: 0 0 2px 2px rgba(0, 0, 255, 0.3);*/
+  border-bottom-color: blue;
+}
+
+.left_menu::-webkit-scrollbar,
+.workspace::-webkit-scrollbar,
+.wrapper_categories::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+.left_menu::-webkit-scrollbar-thumb,
+.workspace::-webkit-scrollbar-thumb,
+.wrapper_categories::-webkit-scrollbar-thumb {
+  background: #828282;
+}

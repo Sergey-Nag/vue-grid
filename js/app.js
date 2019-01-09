@@ -2,7 +2,11 @@ var app = new Vue({
   el: '#app',
   data: {
     items: items,
+    searchItemsList: "",
     windowSize: {
+      height: 0
+    },
+    wrappCats: {
       height: 0
     },
     lines: {
@@ -31,8 +35,24 @@ var app = new Vue({
     }
   },
   methods: {
+    searchItemsInList(blocks) {
+      if (this.searchItemsList !== "") {
+        let byName = blocks.filter(el => el.name.toLowerCase().indexOf(this.searchItemsList.toLowerCase()) !== -1)
+        if (byName.length > 0) return byName
+        else {
+          let byPfx = blocks.filter(el => el.pfx.toLowerCase().indexOf(this.searchItemsList.toLowerCase()) !== -1)
+          if (byPfx.length > 0) return byPfx
+          else {
+            let byTitle = blocks.filter(el => el.title.toLowerCase().indexOf(this.searchItemsList.toLowerCase()) !== -1)
+            if (byTitle.length > 0) return byTitle
+          }
+        }
+      } else return blocks
+    },
     appHeight: function () {
+      let searchWr = document.getElementsByClassName('menu_nav')[0];
       this.windowSize.height = window.innerHeight
+      this.wrappCats.height = this.windowSize.height - searchWr.offsetHeight - 40
     },
     drawLines: function () {
       let grid = this.grid.el
@@ -98,8 +118,8 @@ var app = new Vue({
     scrollToCenter() {
       let wrp = document.getElementById('grid_wrapp')
       let grid = this.grid
-      wrp.scrollLeft = grid.width/2 - wrp.offsetWidth/2
-      wrp.scrollTop = grid.height/2 - wrp.offsetHeight/2
+      wrp.scrollLeft = grid.width / 2 - wrp.offsetWidth / 2
+      wrp.scrollTop = grid.height / 2 - wrp.offsetHeight / 2
     }
   },
   created: function () {
