@@ -1,5 +1,3 @@
-const Doc = document
-const wrappCat = Doc.querySelector('.wrapper_categories')
 const theme = {
   red: {
     bg: '#ff9898',
@@ -92,98 +90,57 @@ const items = [
       }
     ]
   },
-  {
-    category: 'Condition',
-    show: true,
-    blocks: [
-      {
-        name: 'IF',
-        pfx: '',
-        type: 'condition',
-        color: theme.yellow,
-        title: 'Условие'
-      },
-      {
-        name: 'IF-ELSE',
-        pfx: '',
-        type: 'condition',
-        color: theme.yellow,
-        title: 'Условие'
-      }
-    ]
-  },
 ]
 
 class Items_Class {
   constructor() {
     this.items = []
-    this.avatar = false
+    this.item = false
+    this.focus = false
+    this.focusProp = {
+      difX: 0,
+      difY: 0
+    }
   }
 
-  add() {
-
+  add(item) {
+    this.item = item
   }
 
-  createAvatar(elem) {
-    let avatar = elem.cloneNode(false)
-    avatar.id = 'AVATAR__' + elem.getAttribute('item-method')
-    avatar.classList.remove('in-list')
-    avatar.classList.add('avatar')
-
-    let width = elem.offsetWidth
-    avatar.style.width = width + 'px'
-
-    Doc.body.appendChild(avatar)
-    this.avatar = avatar
-
-    let difX = elem.offsetWidth - Mouse.offset.tapX
-    let difY = elem.offsetTop - Mouse.offset.tapy
-
-    avatar.style.left = Mouse.x - difX + 'px'
-    avatar.style.top = Mouse.y - difY + 'px'
+  remove() {
+    if (this.item) {
+      this.item = false
+    }
   }
 
-  moveAvatar() {
-    this.avatar.style.left = Mouse.x + 'px'
-    this.avatar.style.top = Mouse.y + 'px'
+  avatar(elem, offX, offY) {
+    if (!this.focus) {
+      let avatar = elem.cloneNode(false)
+      avatar.classList.remove('in-list')
+      avatar.classList.add('avatar')
 
+      this.focusProp.difX = offX
+      this.focusProp.difY = offY
+      
+      avatar.style.width = elem.offsetWidth+'px'
+      avatar.style.left = -100+'px'
+      avatar.style.top = -100+'px'
+      
+      this.focus = avatar
+      document.getElementById('app').appendChild(avatar)
+    }
   }
 
   removeAvatar() {
-    if (this.avatar) {
-      let avtr = Doc.getElementById(this.avatar.id)
-      Doc.body.removeChild(avtr)
-      this.avatar = false
+    if (this.focus) {
+      document.getElementById('app').removeChild(this.focus)
+      this.focus = false
+      this.focusProp = {
+        difX: 0,
+        difY: 0
+      }
     }
   }
 }
 
-// Items Object
 var Items = new Items_Class()
-
-var Mouse = {
-  which: false,
-  tapX: 0,
-  tapY: 0,
-  x: 0,
-  y: 0,
-  offset: {
-    tapX: 0,
-    tapY: 0
-  },
-  down: false,
-  target: false,
-  holdVector: () => {
-    return vectorLength(Mouse.tapX, Mouse.tapY, Mouse.x, Mouse.y)
-  }
-}
-
-// Длина вектора
-function vectorLength(aX, aY, bX, bY) {
-  let sqr = (a) => a * a;
-  return Math.ceil(Math.sqrt(sqr(aX - bX) + sqr(aY - bY)))
-}
-
-wrappCat.onmousedown = function () {
-  return false;
-}

@@ -59,7 +59,7 @@ input.theme::placeholder {
 
 input.theme:focus {
   outline: none;
-  box-shadow: 0 2px 2px 1px rgba(159, 159, 159, 0.3);
+  /*  box-shadow: 0 0 2px 2px rgba(0, 0, 255, 0.3);*/
   border-bottom-color: blue;
 }
 

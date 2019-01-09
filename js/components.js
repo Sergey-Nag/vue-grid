@@ -3,20 +3,17 @@ Vue.component('item', {
   data: function () {
     return {
       template: '',
-      isDrag: false
+      drag: false,
     }
   },
   methods: {
-    initDrag() {
-      if (Mouse.down) {
-        if (Mouse.holdVector() > 2) this.startDrag()
-      } else Items.removeAvatar()
+    addItem($event) {
+      Items.avatar($event.target,$event.offsetX,$event.offsetY)
     },
-    startDrag() {
-      if (!this.isDrag && !Items.avatar) Items.createAvatar(this.$el)
-//      Doc.body.style.curosr = "move"
+    removeItem() {
+      Items.removeAvatar()
     }
   },
-  mounted: function () {},
-  template: `<div @mousemove="initDrag" :id="id" :style="{backgroundColor: data.color.bg, borderColor: data.color.bc}" class="item in-list" :pfx="data.pfx" :item-method="data.name" :title="data.title"></div>`
+  template: `
+  <div :id="id" @mousedown.prevent="addItem" @mouseup="removeItem" :style="{backgroundColor: data.color.bg, borderColor: data.color.bc}" class="item in-list" :pfx="data.pfx" :item-method="data.name" :title="data.title"></div>`
 })

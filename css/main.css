@@ -2,12 +2,12 @@
 .workspace {
   background: #fff;
   border-radius: 3px;
-  border: 1px solid #dddddd;
+  border: 1px solid #f0f0f0;
 }
 
 .workspace {
   overflow: scroll;
-  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.15);
 }
 
 .app_wrapp {
@@ -97,7 +97,6 @@ div.theme {
 }
 
 .menu_nav {
-  position: relative;
   padding-bottom: 10px;
 }
 .wrapper_categories {
@@ -111,7 +110,7 @@ div.theme {
 .not-found {
   padding: 5px;
   font-size: .8em;
-  background: #f7f7f7;
+  background: #f0f0f0;
   text-align: center;
   margin-bottom: 5px;
 }
