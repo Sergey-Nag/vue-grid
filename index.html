@@ -15,10 +15,11 @@
   <div id="app">
     <div class="app_wrapp" v-bind:style="{height: windowSize.height + 'px'}" @mousemove="mouseMove" @mousedown="mouseDown" @mouseup="mouseUp">
       <div class="left_menu">
-       <div class="menu_nav">
-         <input v-model="searchItemsList" id="items_search" type="text" class="theme" placeholder="Поиск элементов">
-       </div>
+        <div class="menu_nav">
+          <input v-model="searchItemsList" id="items_search" type="text" title="Поиск по названию, префиксу или описанию" class="theme" placeholder="Поиск элементов">
+        </div>
         <div class="wrapper_categories" v-bind:style="{height: wrappCats.height + 'px'}">
+
           <div class="list_wrapp" v-for="(catg) in items">
             <div class="category-header" @click="catg.show = !catg.show">
               <div class="line_h_wrapp">
@@ -28,13 +29,13 @@
               <h5>{{catg.category}}</h5>
             </div>
             <div class="items_wrapp" v-show="catg.show">
-              <item v-for="(item, i) in searchItemsInList(catg.blocks)"       
-               :key="i+'_'+item.name"
-               :id="i+'_'+item.name"
-               :data="item"></item>
-              <div v-if="!searchItemsInList(catg.blocks)" class="not-found">не найдено</div>
+
+              <item v-for="(item, i) in searchItemsInList(catg)" :key="i+'_'+item.name" :id="i+'_'+item.name" :data="item"></item>
+
+              <div v-if="!searchItemsInList(catg)" class="not-found">не найдено</div>
             </div>
           </div>
+
         </div>
       </div>
       <div class="workspace" id="grid_wrapp">
