@@ -99,6 +99,7 @@ div.theme {
 .menu_nav {
   padding-bottom: 10px;
 }
+
 .wrapper_categories {
   overflow: scroll;
 }
@@ -107,10 +108,18 @@ div.theme {
   border-bottom: 1px solid;
   border-bottom-color: #cdcaca;
 }
+
 .not-found {
   padding: 5px;
   font-size: .8em;
   background: #f0f0f0;
   text-align: center;
   margin-bottom: 5px;
+}
+
+.grid-item-wrapp {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: inherit;
 }

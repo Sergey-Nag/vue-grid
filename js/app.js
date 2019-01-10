@@ -2,6 +2,7 @@ var app = new Vue({
   el: '#app',
   data: {
     items: items,
+    Items: new Items_Class(),
     searchItemsList: "",
     windowSize: {
       height: 0
@@ -15,8 +16,9 @@ var app = new Vue({
       step: 20
     },
     grid: {
-      el: document.getElementById('grid-map'),
-      scrollWrapp: document.getElementById('grid_wrapp'),
+      el: Doc.getElementById('grid-map'),
+      scrollWrapp: Doc.getElementById('grid_wrapp'),
+      GRID: Doc.getElementById('grid'),
       width: 2000,
       height: 1000,
       isDrag: false,
@@ -50,30 +52,34 @@ var app = new Vue({
       } else return blocks
     },
     appHeight: function () {
-      let searchWr = document.getElementsByClassName('menu_nav')[0];
+      let searchWr = Doc.getElementsByClassName('menu_nav')[0];
       this.windowSize.height = window.innerHeight
       this.wrappCats.height = this.windowSize.height - searchWr.offsetHeight - 40
     },
     drawLines: function () {
       let grid = this.grid.el
       for (let i = 0; i < this.lines.x; i++) {
-        let line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+        let line = Doc.createElementNS('http://www.w3.org/2000/svg', 'line')
         line.classList.add('line')
         line.id = i + '_x-line'
+        let step = i * this.lines.step
         line.setAttribute('x1', 0)
         line.setAttribute('x2', this.grid.width)
-        line.setAttribute('y1', i * this.lines.step)
-        line.setAttribute('y2', i * this.lines.step)
+        line.setAttribute('y1', step)
+        line.setAttribute('y2', step)
+        Lines.addLine(step, 'top')
         grid.appendChild(line)
       }
       for (let i = 0; i < this.lines.y; i++) {
-        let line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+        let line = Doc.createElementNS('http://www.w3.org/2000/svg', 'line')
         line.classList.add('line')
         line.id = i + '_y-line'
-        line.setAttribute('x1', i * this.lines.step)
+        let step = i * this.lines.step
+        line.setAttribute('x1', step)
         line.setAttribute('y1', 0)
-        line.setAttribute('x2', i * this.lines.step)
+        line.setAttribute('x2', step)
         line.setAttribute('y2', this.grid.height)
+        Lines.addLine(step, 'left')
         grid.appendChild(line)
       }
     },
@@ -82,7 +88,7 @@ var app = new Vue({
       this.Mouse.target = $event.target
       this.Mouse.tapX = $event.pageX
       this.Mouse.tapY = $event.pageY
-      let wrapp = document.getElementById('grid_wrapp');
+      let wrapp = Doc.getElementById('grid_wrapp');
       this.grid.pos.scrollX = wrapp.scrollLeft
       this.grid.pos.scrollY = wrapp.scrollTop
 
@@ -95,24 +101,39 @@ var app = new Vue({
       Mouse.target = $event.target
 
 
-      this.dragGrid()
-      if (Items.focus) {
-        Items.focus.style.left = this.posX
-        Items.focus.style.top = this.posY
+      this.dragGrid($event)
+
+      if (this.Items.focus) {
+        setCursor('move')
+        let pX = this.posX,
+          pY = this.posY;
+        this.Items.focus.style.left = pX + 'px'
+        this.Items.focus.style.top = pY + 'px'
+        if (posOnGrid(Mouse.x, Mouse.y)) {
+          this.Items.inGrid()
+          this.Items.add(this.grid.Grid)
+          
+        } else {
+          this.Items.outGrid()
+        }
       }
+
     },
     mouseUp($event) {
+      setCursor()
       this.Mouse.down = false
       this.Mouse.tapX = 0
       this.Mouse.tapY = 0
 
       this.grid.isDrag = false
-      Items.removeAvatar()
+      this.Items.removeAvatar()
     },
-    dragGrid() {
+    dragGrid($event) {
       if (this.grid.isDrag) {
-        document.body.style.cursor = 'grabbing'
-        let wrapp = document.getElementById('grid_wrapp')
+        $event.preventDefault()
+
+        setCursor('grabbing')
+        let wrapp = Doc.getElementById('grid_wrapp')
         let Mouse = this.Mouse
 
         let distX = Mouse.x - Mouse.tapX
@@ -120,10 +141,10 @@ var app = new Vue({
 
         wrapp.scrollLeft = this.grid.pos.scrollX - distX
         wrapp.scrollTop = this.grid.pos.scrollY - distY
-      } else document.body.style.cursor = 'default'
+      }
     },
     scrollToCenter() {
-      let wrp = document.getElementById('grid_wrapp')
+      let wrp = Doc.getElementById('grid_wrapp')
       let grid = this.grid
       wrp.scrollLeft = grid.width / 2 - wrp.offsetWidth / 2
       wrp.scrollTop = grid.height / 2 - wrp.offsetHeight / 2
@@ -140,18 +161,27 @@ var app = new Vue({
   beforeDestroy: function () {
     window.removeEventListener('resize', this.appHeight)
   },
-  watch: {
-    Mouse: function (x) {
-      x: console.log(this)
-    }
-  },
   computed: {
     posX() {
-      return this.Mouse.x -Items.focusProp.difX+ 'px'
+      return this.Mouse.x - this.Items.focusProp.difX
     },
     posY() {
-      return this.Mouse.y -Items.focusProp.difY + 'px'
+      return this.Mouse.y - this.Items.focusProp.difY
+    },
+    gridX() {
+      return this.Mouse.s + scrollWrapp.scrollLeft
     }
   }
-
 })
+
+var gridWrapp = document.getElementById('grid_wrapp')
+
+function posOnGrid(x, y) {
+  let gX = gridWrapp.offsetLeft,
+    gY = gridWrapp.offsetTop,
+    gX1 = gX + gridWrapp.offsetWidth,
+    gY1 = gY + gridWrapp.offsetHeight;
+
+  if (x > gX && x < gX1 && y > gY && y < gY1) return true
+  else return false
+}

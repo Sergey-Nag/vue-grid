@@ -10,8 +10,30 @@
   margin-bottom: 5px;
 }
 
-.item.avatar {
-  cursor: move;
+.item.default {
+  background: '#f7f7f7';
+  border-color: '#cdcaca'
+}
+.item.red {
+  background: '#ff9898';
+  border-color: '#dd7676'
+}
+.item.blue {
+  background: '#bad1ff';
+  border-color: '#99b3e4'
+}
+.item.green {
+  background: '#a3ffce';
+  border-color: '#8decb9'
+}
+.item.yellow {
+  background: '#f3ff98';
+  border-color: '#e0ec82'
+}
+
+.item.avatar,
+.grid-item-elem {
+  /*  cursor: move;*/
   position: absolute;
 }
 

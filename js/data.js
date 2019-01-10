@@ -1,3 +1,5 @@
+var Doc = document;
+
 const theme = {
   red: {
     bg: '#ff9898',
@@ -96,6 +98,7 @@ class Items_Class {
   constructor() {
     this.items = []
     this.item = false
+    this.added = false
     this.focus = false
     this.focusProp = {
       difX: 0,
@@ -103,8 +106,20 @@ class Items_Class {
     }
   }
 
-  add(item) {
-    this.item = item
+  add(grid) {
+    if (this.item && !this.added) {
+      let item = this.item.cloneNode(false)
+      // forming template
+      this.items.push({
+        id: item.id,
+        name: item.getAttribute('item-method'),
+        x: item.style.left,
+        y: item.style.top,
+        startWidth: item.style.width
+      })
+//      console.log()
+      this.added = true
+    }
   }
 
   remove() {
@@ -115,25 +130,27 @@ class Items_Class {
 
   avatar(elem, offX, offY) {
     if (!this.focus) {
-      let avatar = elem.cloneNode(false)
+      let avatar;
+      if (!elem) avatar = this.item
+      else avatar = elem.cloneNode(false)
       avatar.classList.remove('in-list')
       avatar.classList.add('avatar')
 
       this.focusProp.difX = offX
       this.focusProp.difY = offY
-      
-      avatar.style.width = elem.offsetWidth+'px'
-      avatar.style.left = -100+'px'
-      avatar.style.top = -100+'px'
-      
+
+      avatar.style.width = elem.offsetWidth + 'px'
+      avatar.style.left = -100 + 'px'
+      avatar.style.top = -100 + 'px'
+
       this.focus = avatar
-      document.getElementById('app').appendChild(avatar)
+      Doc.getElementById('app').appendChild(avatar)
     }
   }
 
   removeAvatar() {
     if (this.focus) {
-      document.getElementById('app').removeChild(this.focus)
+      Doc.getElementById('app').removeChild(this.focus)
       this.focus = false
       this.focusProp = {
         difX: 0,
@@ -141,6 +158,49 @@ class Items_Class {
       }
     }
   }
+
+  inGrid() {
+    if (!this.item) {
+      this.item = this.focus
+      this.focus.style.opacity = 0
+    }
+  }
+  
+  outGrid() {
+    this.focus.style.opacity = 1
+    this.item = false
+  }
+  
 }
 
-var Items = new Items_Class()
+
+class Lines_Class {
+  constructor() {
+    this.lines = {
+      left: [],
+      top: []
+    }
+  }
+
+  addLine(pos, dir) {
+    this.lines[dir].push(pos)
+  }
+
+  search(x, y) {
+    let that = this;
+    new Promise((res, rej) => {
+      that.lines.left.forEach((el) => {
+        console.log('left ->', el)
+      })
+    });
+  }
+
+}
+
+var Lines = new Lines_Class()
+
+
+function setCursor(type) {
+  type = type || 'default';
+  Doc.body.style.cursor = type;
+}
