@@ -95,6 +95,8 @@ class Items_Class {
     if (this.item && !this.added) {
       let item = this.item.cloneNode(false)
       // forming template
+      
+      item = formingTemplateItem(item)
       this.items.push({
         id: item.id,
         name: item.getAttribute('item-method'),
@@ -225,4 +227,9 @@ var Lines = new Lines_Class()
 function setCursor(type) {
   type = type || 'default';
   Doc.body.style.cursor = type;
+}
+
+function formingTemplateItem(item) {
+  item.style.width = 57+'px'
+  return item
 }

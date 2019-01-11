@@ -17,7 +17,7 @@ Vue.component('item', {
 })
 
 Vue.component('grid-item', {
-  props: ['properties', 'id', 'items', 'i'],
+  props: ['properties', 'id', 'items'],
   data: function () {
     return {
       colors: this.$props
@@ -26,7 +26,6 @@ Vue.component('grid-item', {
   methods: {
   },
   mounted: function () {
-    console.log(this.$props.i)
   },
   template: `
   <div :id="id" :title="colors" :style="{left: properties.x, top: properties.y}" class="item grid-item-elem" :class="properties.color" :item-method="properties.name"></div>`

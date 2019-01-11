@@ -115,6 +115,7 @@ var app = new Vue({
           this.Items.setPos(this.gridX, this.gridY)
         } else {
           this.Items.outGrid()
+          if (this.Items.added) this.Items.added = false
         }
       }
 
@@ -128,6 +129,8 @@ var app = new Vue({
 
       this.grid.isDrag = false
       this.Items.removeAvatar()
+      
+      if (this.Items.added) this.Items.added = false
     },
     
     dragGrid($event) {
