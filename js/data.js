@@ -1,26 +1,11 @@
 var Doc = document;
 
 const theme = {
-  red: {
-    bg: '#ff9898',
-    bc: '#dd7676'
-  },
-  blue: {
-    bg: '#bad1ff',
-    bc: '#99b3e4'
-  },
-  green: {
-    bg: '#a3ffce',
-    bc: '#8decb9'
-  },
-  yellow: {
-    bg: '#f3ff98',
-    bc: '#e0ec82'
-  },
-  default: {
-    bg: '#f7f7f7',
-    bc: '#cdcaca'
-  }
+  red: 'red',
+  blue: 'blue',
+  green: 'green',
+  yellow: 'yellow',
+  default: 'default'
 }
 
 const items = [
@@ -113,14 +98,36 @@ class Items_Class {
       this.items.push({
         id: item.id,
         name: item.getAttribute('item-method'),
+        type: item.getAttribute('type'),
+        color: item.getAttribute('theme'),
+        title: item.getAttribute('title'),
         x: item.style.left,
         y: item.style.top,
         startWidth: item.style.width
       })
-//      console.log()
+      //      console.log()
       this.added = true
     }
   }
+
+  setPos(X, Y) {
+    if (this.item) {
+      let item = this.item
+      let lines = Lines
+      this.items.map((el) => {
+        if (el.id == item.id) {
+          let srch = lines.search(X, Y);
+          srch.then((res) => {
+            el.x = res.xTrue + 3 + 'px'
+            el.y = res.yTrue + 3 + 'px'
+          }).catch((err) => {
+            // ** ? **
+          })
+        }
+      })
+    }
+  }
+
 
   remove() {
     if (this.item) {
@@ -165,12 +172,12 @@ class Items_Class {
       this.focus.style.opacity = 0
     }
   }
-  
+
   outGrid() {
     this.focus.style.opacity = 1
     this.item = false
   }
-  
+
 }
 
 
@@ -188,9 +195,24 @@ class Lines_Class {
 
   search(x, y) {
     let that = this;
-    new Promise((res, rej) => {
+    return new Promise((res, rej) => {
+      let xTrue = false
       that.lines.left.forEach((el) => {
-        console.log('left ->', el)
+        if (x > el && x < el + 20) xTrue = el
+      })
+      let yTrue = false
+      that.lines.top.forEach((el) => {
+        if (y > el && y < el + 20) yTrue = el
+      })
+
+      if (xTrue && yTrue) {
+        res({
+          xTrue,
+          yTrue
+        })
+      } else rej({
+        xTrue,
+        yTrue
       })
     });
   }

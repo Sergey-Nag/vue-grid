@@ -13,18 +13,21 @@ Vue.component('item', {
     }
   },
   template: `
-  <div :id="id" @mousedown.prevent="addItem" @mouseup="removeItem" :style="{backgroundColor: data.color.bg, borderColor: data.color.bc}" class="item in-list" :pfx="data.pfx" :item-method="data.name" :title="data.title"></div>`
+  <div :id="id" @mousedown.prevent="addItem" @mouseup="removeItem" class="item in-list" :class="data.color" :pfx="data.pfx" :item-method="data.name" :title="data.title" :type="data.type" :theme="data.color"></div>`
 })
 
 Vue.component('grid-item', {
-  props: ['properties', 'id'],
+  props: ['properties', 'id', 'items', 'i'],
   data: function () {
     return {
-      colors: '',
+      colors: this.$props
     }
   },
   methods: {
   },
+  mounted: function () {
+    console.log(this.$props.i)
+  },
   template: `
-  <div :id="id" :style="{left: properties.x, top: properties.y}" class="item grid-item-elem" :item-method="properties.name"></div>`
+  <div :id="id" :title="colors" :style="{left: properties.x, top: properties.y}" class="item grid-item-elem" :class="properties.color" :item-method="properties.name"></div>`
 })

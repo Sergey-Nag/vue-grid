@@ -17,7 +17,7 @@ var app = new Vue({
     },
     grid: {
       el: Doc.getElementById('grid-map'),
-      scrollWrapp: Doc.getElementById('grid_wrapp'),
+//      scrollWrapp: Doc.getElementById('grid_wrapp'),
       GRID: Doc.getElementById('grid'),
       width: 2000,
       height: 1000,
@@ -112,13 +112,14 @@ var app = new Vue({
         if (posOnGrid(Mouse.x, Mouse.y)) {
           this.Items.inGrid()
           this.Items.add(this.grid.Grid)
-          
+          this.Items.setPos(this.gridX, this.gridY)
         } else {
           this.Items.outGrid()
         }
       }
 
     },
+    
     mouseUp($event) {
       setCursor()
       this.Mouse.down = false
@@ -128,12 +129,14 @@ var app = new Vue({
       this.grid.isDrag = false
       this.Items.removeAvatar()
     },
+    
     dragGrid($event) {
       if (this.grid.isDrag) {
         $event.preventDefault()
 
         setCursor('grabbing')
-        let wrapp = Doc.getElementById('grid_wrapp')
+        let wrapp = this.$refs.scrollWrapp
+//        let wrapp = Doc.getElementById('grid_wrapp')
         let Mouse = this.Mouse
 
         let distX = Mouse.x - Mouse.tapX
@@ -143,12 +146,14 @@ var app = new Vue({
         wrapp.scrollTop = this.grid.pos.scrollY - distY
       }
     },
+    
     scrollToCenter() {
       let wrp = Doc.getElementById('grid_wrapp')
       let grid = this.grid
       wrp.scrollLeft = grid.width / 2 - wrp.offsetWidth / 2
       wrp.scrollTop = grid.height / 2 - wrp.offsetHeight / 2
     }
+    
   },
   created: function () {
     this.appHeight()
@@ -169,7 +174,12 @@ var app = new Vue({
       return this.Mouse.y - this.Items.focusProp.difY
     },
     gridX() {
-      return this.Mouse.s + scrollWrapp.scrollLeft
+      let wrapp = this.$refs.scrollWrapp
+      return this.Mouse.x + wrapp.scrollLeft-wrapp.offsetLeft
+    },
+    gridY() {
+      let wrapp = this.$refs.scrollWrapp
+      return this.Mouse.y + wrapp.scrollTop-wrapp.offsetTop
     }
   }
 })
