@@ -1,5 +1,5 @@
 var Doc = document;
-
+var GridItemsId = 0
 const theme = {
   red: 'red',
   blue: 'blue',
@@ -79,6 +79,7 @@ const items = [
   },
 ]
 
+// Класс item's на сетке
 class Items_Class {
   constructor() {
     this.items = []
@@ -96,7 +97,7 @@ class Items_Class {
       let item = this.item.cloneNode(false)
       // forming template
       
-      item = formingTemplateItem(item)
+//      item = formingTemplateItem(item)
       this.items.push({
         id: item.id,
         name: item.getAttribute('item-method'),
@@ -107,7 +108,7 @@ class Items_Class {
         y: item.style.top,
         startWidth: item.style.width
       })
-      //      console.log()
+//      GridItemsId++;
       this.added = true
     }
   }
@@ -148,6 +149,9 @@ class Items_Class {
       this.focusProp.difX = offX
       this.focusProp.difY = offY
 
+      avatar.id += '_'+GridItemsId
+      GridItemsId++;
+      
       avatar.style.width = elem.offsetWidth + 'px'
       avatar.style.left = -100 + 'px'
       avatar.style.top = -100 + 'px'
@@ -182,13 +186,14 @@ class Items_Class {
 
 }
 
-
+//  Класс линий сетки
 class Lines_Class {
   constructor() {
     this.lines = {
       left: [],
       top: []
     }
+    this.map =[]
   }
 
   addLine(pos, dir) {
@@ -221,7 +226,7 @@ class Lines_Class {
 
 }
 
-var Lines = new Lines_Class()
+//var Lines = new Lines_Class()
 
 
 function setCursor(type) {

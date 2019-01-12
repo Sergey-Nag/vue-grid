@@ -11,16 +11,16 @@ var app = new Vue({
       height: 0
     },
     lines: {
-      x: 100,
-      y: 100,
+      x: 100, // height
+      y: 100, // width
       step: 20
     },
+    Lines: new Lines_Class(),
     grid: {
       el: Doc.getElementById('grid-map'),
-//      scrollWrapp: Doc.getElementById('grid_wrapp'),
       GRID: Doc.getElementById('grid'),
-      width: 2000,
-      height: 1000,
+      width: 100,
+      height: 100,
       isDrag: false,
       pos: {
         scrollX: 0,
@@ -58,29 +58,20 @@ var app = new Vue({
     },
     drawLines: function () {
       let grid = this.grid.el
-      for (let i = 0; i < this.lines.x; i++) {
-        let line = Doc.createElementNS('http://www.w3.org/2000/svg', 'line')
-        line.classList.add('line')
-        line.id = i + '_x-line'
-        let step = i * this.lines.step
-        line.setAttribute('x1', 0)
-        line.setAttribute('x2', this.grid.width)
-        line.setAttribute('y1', step)
-        line.setAttribute('y2', step)
-        Lines.addLine(step, 'top')
-        grid.appendChild(line)
-      }
-      for (let i = 0; i < this.lines.y; i++) {
-        let line = Doc.createElementNS('http://www.w3.org/2000/svg', 'line')
-        line.classList.add('line')
-        line.id = i + '_y-line'
-        let step = i * this.lines.step
-        line.setAttribute('x1', step)
-        line.setAttribute('y1', 0)
-        line.setAttribute('x2', step)
-        line.setAttribute('y2', this.grid.height)
-        Lines.addLine(step, 'left')
-        grid.appendChild(line)
+
+      // HEIGHT GRID
+      this.grid.width = this.lines.y * this.lines.step
+      this.grid.height = this.lines.x * this.lines.step
+
+      for (let i = 0; i < largestNum(this.lines.x, this.lines.y); i++) {
+        let pos = i * this.lines.step
+        let Xx = this.grid.width;
+        let Yy = this.grid.height;
+        this.Lines.map.push({
+          pinned: false,
+          x: (pos <= Xx) ? pos : null,
+          y: (pos <= Yy) ? pos : null
+        })
       }
     },
     mouseDown($event) {
@@ -120,7 +111,7 @@ var app = new Vue({
       }
 
     },
-    
+
     mouseUp($event) {
       setCursor()
       this.Mouse.down = false
@@ -129,17 +120,17 @@ var app = new Vue({
 
       this.grid.isDrag = false
       this.Items.removeAvatar()
-      
+
       if (this.Items.added) this.Items.added = false
     },
-    
+
     dragGrid($event) {
       if (this.grid.isDrag) {
         $event.preventDefault()
 
         setCursor('grabbing')
         let wrapp = this.$refs.scrollWrapp
-//        let wrapp = Doc.getElementById('grid_wrapp')
+        //        let wrapp = Doc.getElementById('grid_wrapp')
         let Mouse = this.Mouse
 
         let distX = Mouse.x - Mouse.tapX
@@ -149,14 +140,17 @@ var app = new Vue({
         wrapp.scrollTop = this.grid.pos.scrollY - distY
       }
     },
-    
+
     scrollToCenter() {
       let wrp = Doc.getElementById('grid_wrapp')
       let grid = this.grid
       wrp.scrollLeft = grid.width / 2 - wrp.offsetWidth / 2
       wrp.scrollTop = grid.height / 2 - wrp.offsetHeight / 2
+    },
+
+    showLines(arg) {
+      return this.Lines.map.filter((el) => el[arg])
     }
-    
   },
   created: function () {
     this.appHeight()
@@ -178,11 +172,11 @@ var app = new Vue({
     },
     gridX() {
       let wrapp = this.$refs.scrollWrapp
-      return this.Mouse.x + wrapp.scrollLeft-wrapp.offsetLeft
+      return this.Mouse.x + wrapp.scrollLeft - wrapp.offsetLeft
     },
     gridY() {
       let wrapp = this.$refs.scrollWrapp
-      return this.Mouse.y + wrapp.scrollTop-wrapp.offsetTop
+      return this.Mouse.y + wrapp.scrollTop - wrapp.offsetTop
     }
   }
 })
@@ -197,4 +191,8 @@ function posOnGrid(x, y) {
 
   if (x > gX && x < gX1 && y > gY && y < gY1) return true
   else return false
+}
+
+function largestNum(a, b) {
+  return (a < b) ? b : a
 }
