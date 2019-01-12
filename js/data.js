@@ -96,8 +96,8 @@ class Items_Class {
     if (this.item && !this.added) {
       let item = this.item.cloneNode(false)
       // forming template
-      
-//      item = formingTemplateItem(item)
+
+      //      item = formingTemplateItem(item)
       this.items.push({
         id: item.id,
         name: item.getAttribute('item-method'),
@@ -108,22 +108,24 @@ class Items_Class {
         y: item.style.top,
         startWidth: item.style.width
       })
-//      GridItemsId++;
+      //      GridItemsId++;
       this.added = true
     }
   }
 
-  setPos(X, Y) {
+  setPos(Lines, X, Y) {
     if (this.item) {
       let item = this.item
       let lines = Lines
       this.items.map((el) => {
         if (el.id == item.id) {
-          let srch = lines.search(X, Y);
+          let srch = Lines.search(X, Y);
           srch.then((res) => {
-            el.x = res.xTrue + 3 + 'px'
-            el.y = res.yTrue + 3 + 'px'
+            el.x = res.x + 3 + 'px'
+            el.y = res.y + 3 + 'px'
+            console.log(res.x,res.y)
           }).catch((err) => {
+            console.warn(err.x,err.y)
             // ** ? **
           })
         }
@@ -149,9 +151,9 @@ class Items_Class {
       this.focusProp.difX = offX
       this.focusProp.difY = offY
 
-      avatar.id += '_'+GridItemsId
+      avatar.id += '_' + GridItemsId
       GridItemsId++;
-      
+
       avatar.style.width = elem.offsetWidth + 'px'
       avatar.style.left = -100 + 'px'
       avatar.style.top = -100 + 'px'
@@ -189,11 +191,8 @@ class Items_Class {
 //  Класс линий сетки
 class Lines_Class {
   constructor() {
-    this.lines = {
-      left: [],
-      top: []
-    }
-    this.map =[]
+    this.left = []
+    this.top = []
   }
 
   addLine(pos, dir) {
@@ -203,24 +202,21 @@ class Lines_Class {
   search(x, y) {
     let that = this;
     return new Promise((res, rej) => {
-      let xTrue = false
-      that.lines.left.forEach((el) => {
-        if (x > el && x < el + 20) xTrue = el
-      })
-      let yTrue = false
-      that.lines.top.forEach((el) => {
-        if (y > el && y < el + 20) yTrue = el
-      })
-
-      if (xTrue && yTrue) {
-        res({
-          xTrue,
-          yTrue
-        })
-      } else rej({
-        xTrue,
-        yTrue
-      })
+      let xPos = that.left.filter((el) => x > el.pos && x < el.pos + 20)
+      let yPos = that.top.filter((el) => y > el.pos && y < el.pos + 20)
+      if (xPos[0] !== undefined && yPos[0] !== undefined) {
+        if (!xPos[0].pinned && !yPos[0].pinned) {
+          res({
+            x: xPos[0].pos,
+            y: yPos[0].pos
+          })
+        } else {
+          rej({
+            x: xPos[0].pos,
+            y: yPos[0].pos
+          })
+        }
+      }
     });
   }
 
@@ -235,6 +231,6 @@ function setCursor(type) {
 }
 
 function formingTemplateItem(item) {
-  item.style.width = 57+'px'
+  item.style.width = 57 + 'px'
   return item
 }

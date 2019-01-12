@@ -11,8 +11,8 @@ var app = new Vue({
       height: 0
     },
     lines: {
-      x: 100, // height
-      y: 100, // width
+      x: 50, // height
+      y: 50, // width
       step: 20
     },
     Lines: new Lines_Class(),
@@ -62,15 +62,17 @@ var app = new Vue({
       // HEIGHT GRID
       this.grid.width = this.lines.y * this.lines.step
       this.grid.height = this.lines.x * this.lines.step
-
-      for (let i = 0; i < largestNum(this.lines.x, this.lines.y); i++) {
-        let pos = i * this.lines.step
-        let Xx = this.grid.width;
-        let Yy = this.grid.height;
-        this.Lines.map.push({
-          pinned: false,
-          x: (pos <= Xx) ? pos : null,
-          y: (pos <= Yy) ? pos : null
+      
+      for (let i = 0; i < this.lines.x; i++) {
+        this.Lines.left.push({
+          pos: i*this.lines.step,
+          pinned: false
+        })
+      }
+      for (let i = 0; i < this.lines.y; i++) {
+        this.Lines.top.push({
+          pos: i*this.lines.step,
+          pinned: false
         })
       }
     },
@@ -98,12 +100,14 @@ var app = new Vue({
         setCursor('move')
         let pX = this.posX,
           pY = this.posY;
+
         this.Items.focus.style.left = pX + 'px'
         this.Items.focus.style.top = pY + 'px'
+
         if (posOnGrid(Mouse.x, Mouse.y)) {
           this.Items.inGrid()
           this.Items.add(this.grid.Grid)
-          this.Items.setPos(this.gridX, this.gridY)
+          this.Items.setPos(this.Lines, this.gridX, this.gridY)
         } else {
           this.Items.outGrid()
           if (this.Items.added) this.Items.added = false
@@ -121,7 +125,11 @@ var app = new Vue({
       this.grid.isDrag = false
       this.Items.removeAvatar()
 
-      if (this.Items.added) this.Items.added = false
+      if (this.Items.added) {
+        this.Items.added = false
+//        this.Lines.pinnItem()
+        console.log(this.Items.item)
+      }
     },
 
     dragGrid($event) {
@@ -148,10 +156,10 @@ var app = new Vue({
       wrp.scrollTop = grid.height / 2 - wrp.offsetHeight / 2
     },
 
-    showLines(arg) {
-      return this.Lines.map.filter((el) => el[arg])
-    }
   },
+  // end Methods
+  
+  
   created: function () {
     this.appHeight()
     this.drawLines()

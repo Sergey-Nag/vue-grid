@@ -40,14 +40,14 @@
         <div class="svg_wrapp" id="grid">
           <svg id="grid-map" v-bind:style="{height: grid.height + 'px', width: grid.width+'px'}" shape-rendering="optimizeSpeed">
            
-            <line class="line" v-for="(line,i) in showLines('y')"
+            <line class="line" v-for="(line,i) in Lines.top"
               :x1="0" :x2="grid.width"
-              :y1="line.y" :y2="line.y"
+              :y1="line.pos" :y2="line.pos"
               :id="'Y-Line__'+i"
              ></line>
-            <line class="line" v-for="(line,i) in showLines('x')"
+            <line class="line" v-for="(line,i) in Lines.left"
               :y1="0" :y2="grid.height"
-              :x1="line.x" :x2="line.x"
+              :x1="line.pos" :x2="line.pos"
               :id="'X-Line__'+i"
               ></line>
               
