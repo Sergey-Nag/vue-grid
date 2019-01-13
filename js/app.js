@@ -127,13 +127,13 @@ var app = new Vue({
 
       if (this.Items.added) {
         this.Items.added = false
-//        this.Lines.pinnItem()
+        this.Lines.pinnItem(this.Items.gridLines)
         console.log(this.Items.item)
       }
     },
 
     dragGrid($event) {
-      if (this.grid.isDrag) {
+      if (this.grid.isDrag && $event.which == 1) {
         $event.preventDefault()
 
         setCursor('grabbing')

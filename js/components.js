@@ -1,8 +1,7 @@
 Vue.component('item', {
   props: ['data', 'id'],
   data: function () {
-    return {
-    }
+    return {}
   },
   methods: {
     addItem($event) {
@@ -23,10 +22,25 @@ Vue.component('grid-item', {
       colors: this.$props
     }
   },
-  methods: {
-  },
-  mounted: function () {
-  },
+  methods: {},
+  mounted: function () {},
   template: `
-  <div :id="id" :title="colors" :style="{left: properties.x, top: properties.y}" class="item grid-item-elem" :class="properties.color" :item-method="properties.name"></div>`
+  <div :id="id"
+
+    :style="{
+      opacity: properties.opacity,
+      left: properties.x,
+      top: properties.y,
+      width: properties.width+'px',
+      height: properties.height+'px'}"
+
+    class="item grid-item-elem"
+
+    :class="properties.color"
+
+    :item-method="properties.name">
+
+      <div class="input"><div class="inp_bg"></div></div>
+      <div class="output"><div class="inp_bg"></div></div>
+</div>`
 })

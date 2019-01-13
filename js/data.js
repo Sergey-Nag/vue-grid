@@ -90,23 +90,42 @@ class Items_Class {
       difX: 0,
       difY: 0
     }
+    this.gridLines={
+      x: null,
+      y: null
+    }
   }
 
   add(grid) {
     if (this.item && !this.added) {
       let item = this.item.cloneNode(false)
       // forming template
+      let width
+      let height = 35
+      switch (item.getAttribute('type')) {
+        case 'variable':
+          width = 95
+          break;
+        case 'class':
+          width = 155
+          break;
+        default:
+          width = 135
+          break;
+      }
 
-      //      item = formingTemplateItem(item)
       this.items.push({
         id: item.id,
         name: item.getAttribute('item-method'),
         type: item.getAttribute('type'),
         color: item.getAttribute('theme'),
         title: item.getAttribute('title'),
+        opacity: 1,
+        permit: true,
         x: item.style.left,
         y: item.style.top,
-        startWidth: item.style.width
+        width,
+        height
       })
       //      GridItemsId++;
       this.added = true
@@ -120,19 +139,25 @@ class Items_Class {
       this.items.map((el) => {
         if (el.id == item.id) {
           let srch = Lines.search(X, Y);
+
           srch.then((res) => {
-            el.x = res.x + 3 + 'px'
-            el.y = res.y + 3 + 'px'
-            console.log(res.x,res.y)
+            el.permit = true
+            el.x = res.x[0] + 3 + 'px'
+            el.y = res.y[0] + 3 + 'px'
+            this.gridLines.x = res.x[1]
+            this.gridLines.y = res.y[1]
           }).catch((err) => {
-            console.warn(err.x,err.y)
+            el.permit = false
+            el.x = err.x[0] + 3 + 'px'
+            el.y = err.y[0] + 3 + 'px'
             // ** ? **
           })
+          console.log(this.gridLines)
         }
       })
     }
   }
-
+  
 
   remove() {
     if (this.item) {
@@ -202,22 +227,31 @@ class Lines_Class {
   search(x, y) {
     let that = this;
     return new Promise((res, rej) => {
-      let xPos = that.left.filter((el) => x > el.pos && x < el.pos + 20)
-      let yPos = that.top.filter((el) => y > el.pos && y < el.pos + 20)
-      if (xPos[0] !== undefined && yPos[0] !== undefined) {
-        if (!xPos[0].pinned && !yPos[0].pinned) {
+      let xPos = undefined
+      let yPos = undefined
+      that.left.forEach((el, i) => x > el.pos && x < el.pos + 20 ? xPos = {el,id:i}:undefined)
+      that.top.forEach((el, i) => y > el.pos && y < el.pos + 20 ? yPos = {el,id: i}:undefined)
+      if (xPos !== undefined && yPos !== undefined) {
+        if (!xPos.el.pinned || !yPos.el.pinned) {
           res({
-            x: xPos[0].pos,
-            y: yPos[0].pos
+            x: [xPos.el.pos, xPos.id],
+            y: [yPos.el.pos, yPos.id],
           })
         } else {
           rej({
-            x: xPos[0].pos,
-            y: yPos[0].pos
+            x: [xPos.el.pos, xPos.id],
+            y: [yPos.el.pos, yPos.id],
           })
         }
       }
     });
+  }
+  
+  pinnItem(pos) {
+    let X = pos.x
+    let Y = pos.y
+    this.left[X].pinned = true
+    this.top[Y].pinned = true
   }
 
 }
@@ -228,9 +262,4 @@ class Lines_Class {
 function setCursor(type) {
   type = type || 'default';
   Doc.body.style.cursor = type;
-}
-
-function formingTemplateItem(item) {
-  item.style.width = 57 + 'px'
-  return item
 }

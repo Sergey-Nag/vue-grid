@@ -32,8 +32,9 @@
 }
 
 .item.avatar,
-.grid-item-elem {
-  /*  cursor: move;*/
+.grid-item-elem,
+.grid-item-elem .input,
+.grid-item-elem .output{
   position: absolute;
 }
 
@@ -51,31 +52,49 @@
   content: attr(item-method);
 }
 
-.hover-title {
-  display: none;
-  position: absolute;
-  z-index: 100;
-  right: 0;
-  width: 150px;
-  border-radius: inherit;
-  top: -1px;
-  margin-right: -160px;
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
+.item.grid-item-elem[item-method]::after {
+  content: attr(item-method);
+  padding-left: 5px;
 }
 
-.hover-title > .triangle {
-  position: absolute;
-  width: 0px;
-  top: 0;
-  height: 0px;
-  border: solid 5px rgba(0, 0, 0, 0.8);
-  border-bottom-color: transparent;
-  border-right-color: transparent;
-  transform: rotate(-45deg);
-}
 
 .item.in-list:hover .hover-title {
   display: block;
+}
+
+.grid-item-elem .input,
+.grid-item-elem .output {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid;
+}
+
+.grid-item-elem .input{
+  left: -7px;
+  top: 11px;
+  padding: 2px;
+  border-color: #0093d4;
+}
+
+.grid-item-elem .output{
+  right: -7px;
+  top: 11px;
+  padding: 2px;
+  border-color: #00af00;
+}
+
+.grid-item-elem .inp_bg.in{
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+
+.grid-item-elem .input .inp_bg.in {
+  background: #0093d4;
+}
+.grid-item-elem .output .inp_bg.in {
+  background: #00af00;
 }

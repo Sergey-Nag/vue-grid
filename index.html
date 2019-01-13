@@ -54,7 +54,7 @@
           </svg>
           <div class="grid-item-wrapp">
 
-            <grid-item v-if="Items.items.length > 0" v-for="(item, i) in Items.items" :i="Items" :items="items" :key="i+'_G_'+item.name" :properties="item" :id="i+'_G_'+item.name">
+            <grid-item v-if="Items.items.length > 0" v-for="(item, i) in Items.items" :i="Items" :items="item" :key="i+'_G_'+item.name" :properties="item" :id="i+'_G_'+item.name">
             </grid-item>
 
           </div>
