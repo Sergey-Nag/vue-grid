@@ -21,18 +21,12 @@
   height: auto;
   display: grid;
   grid-column-gap: 10px;
-  grid-template-columns: 200px auto 220px 25px;
-}
-
-.right-top_menu {
-  display: grid;
-  grid-auto-rows: 25px;
-  grid-row-gap: 5px;
+  grid-template-columns: 200px auto 250px;
 }
 
 p.description {
   padding: 10px 0;
-  font-size: .92em;
+  font-size: .9em;
 }
 
 .right_menu .wrapp_items {
@@ -51,10 +45,10 @@ p.description {
 .setting .name {
   background: #f7f7f7;
   padding-left: 2px;
-  font-size: 1.05em;
   margin-right: 2px;
   border-left: 2px solid #b1b1b1;
 }
+
 
 .setting input {
   padding: 5px;
@@ -62,11 +56,10 @@ p.description {
   border-left: 2px solid #b1b1b1;
 }
 
-/*
-.setting:last-child {
-  margin-bottom: 10px;
+.setting input:focus{
+  border-left-color: blue;
 }
-*/
+
 
 span.type::before {
   content: 'TYPE: ';
@@ -75,10 +68,6 @@ span.type::before {
   padding-left: 2px;
   margin-right: 2px;
   border-left: 2px solid #b1b1b1;
-}
-
-.block_top:hover {
-  background: rgba(0, 0, 0, 0.1);
 }
 
 .grid_wrapp {
@@ -201,4 +190,17 @@ div.theme {
   right: 0;
   padding: 10px;
   background: grey;
+}
+
+.showDescr {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+}
+.showDescr h1 {
+  display: block;
+  text-align: center;
+  color: #c3c3c3;
+  font-weight: lighter;
 }

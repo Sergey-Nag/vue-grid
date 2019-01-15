@@ -44,38 +44,42 @@
             <line class="line" v-for="(line,i) in Lines.left" :y1="0" :y2="grid.height" :x1="line.pos" :x2="line.pos" :id="'X-Line__'+i"></line>
 
           </svg>
-          <div class="grid-item-wrapp">
+          <div class="grid-item-wrapp" v-if="Items.items.length > 0">
 
-            <grid-item v-if="Items.items.length > 0" v-for="(item, i) in Items.items" :i="Items" :items="item" :key="i+'_G_'+item.name" :properties="item" :id="i+'_G_'+item.name">
+            <grid-item v-for="(item, i) in Items.items" :key="i+'_G_'+item.name" :properties="item" :id="i+'_G_'+item.name" is-line-drag="isLineDrag">
             </grid-item>
 
           </div>
         </div>
       </div>
       <div class="right_menu">
-        <div class="right_wrapp">
+        <div class="right_wrapp" v-if="focusItem.isActive">
           <h2>{{focusItem.name}}</h2>
           <div class="line"></div>
           <div class="wrapp_items">
-            <p class="description">{{focusItem.description}}</p>
+            <p class="description">{{focusItem.title}}</p>
             <span class="type">{{focusItem.type}}</span>
           </div>
           <div class="line"></div>
           <div class="wrapp_settings">
-            <div class="setting f-roboto" v-for="item in focusItem.params">
-              <span class="name">{{item.name}}:</span> <input type="text">
+            <div class="setting f-roboto" v-for="(item, i) in focusItem.params">
+             
+              <div class="wrapp_sett_conditions">
+
+                <label class="name" :for="i+item.name">{{item.name}}:</label> <input :id="i+item.name" class="theme" :type="item.input" :value="item.value" :placeholder="item.plchold">
+
+              </div>
+              
             </div>
           </div>
           <div class="line"></div>
           <div class="wrapp_controlls">
-            <button class="theme full">ss</button>
+            <button class="theme full">Подтвердить</button>
           </div>
         </div>
-      </div>
-      <div class="right-top_menu">
-        <div class="block_top"></div>
-        <div class="block_top"></div>
-        <div class="block_top"></div>
+        <div class="showDescr" v-else>
+          <h1>Выберите блок на сетке</h1>
+        </div>
       </div>
     </div>
   </div>

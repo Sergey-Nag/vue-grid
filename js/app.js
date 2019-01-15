@@ -35,21 +35,17 @@ var app = new Vue({
       down: false,
       target: false
     },
+    isLineDrag: false,
     focusItem: {
-      name: 'Template',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum nobis debitis aperiam ad quod saepe hic, odio odit.',
-      type: 'variable',
-      params: [
-        {name: 'one', settings: {}},
-        {name: 'two', settings: {}},
-        {name: 'three', settings: {}},
-        {name: 'four', settings: {}},
-        {name: 'five', settings: {}}
-      ],
-      connect: []
+      isActive: false
     }
   },
+
   methods: {
+
+    activateItem(item) {
+      console.log('hello suka')
+    },
     searchItemsInList(blocks) {
       if (this.searchItemsList !== "") {
         let byName = blocks.filter(el => el.name.toLowerCase().indexOf(this.searchItemsList.toLowerCase()) !== -1)
@@ -75,16 +71,16 @@ var app = new Vue({
       // HEIGHT GRID
       this.grid.width = this.lines.y * this.lines.step
       this.grid.height = this.lines.x * this.lines.step
-      
+
       for (let i = 0; i < this.lines.x; i++) {
         this.Lines.left.push({
-          pos: i*this.lines.step,
+          pos: i * this.lines.step,
           pinned: false
         })
       }
       for (let i = 0; i < this.lines.y; i++) {
         this.Lines.top.push({
-          pos: i*this.lines.step,
+          pos: i * this.lines.step,
           pinned: false
         })
       }
@@ -98,7 +94,14 @@ var app = new Vue({
       this.grid.pos.scrollX = wrapp.scrollLeft
       this.grid.pos.scrollY = wrapp.scrollTop
 
-      if (this.Mouse.target.tagName == 'svg' || this.Mouse.target.tagName == 'line') this.grid.isDrag = true
+      if (this.Mouse.target.tagName == 'svg' || this.Mouse.target.tagName == 'line') {
+        this.grid.isDrag = true
+          console.log(this.focusItem)
+        if (this.focusItem.isActive) {
+//          this.focusItem.isActive = false
+          this.Items.items.map((el)=>el.isActive = false)
+        }
+      }
     },
     mouseMove($event) {
       let Mouse = this.Mouse
@@ -167,12 +170,12 @@ var app = new Vue({
       let grid = this.grid
       wrp.scrollLeft = grid.width / 2 - wrp.offsetWidth / 2
       wrp.scrollTop = grid.height / 2 - wrp.offsetHeight / 2
-    },
+    }
 
   },
   // end Methods
-  
-  
+
+
   created: function () {
     this.appHeight()
     this.drawLines()

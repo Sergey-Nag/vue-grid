@@ -120,12 +120,26 @@ class Items_Class {
         type: item.getAttribute('type'),
         color: item.getAttribute('theme'),
         title: item.getAttribute('title'),
+        isActive: false,
         opacity: 1,
         permit: true,
         x: item.style.left,
         y: item.style.top,
         width,
-        height
+        height,
+        params: [
+          {
+            name: 'name',
+            input: 'text',
+            value: '',
+            plchold: 'Введите название данных (имя переменной)'
+          },
+          {
+            name: 'color',
+            input: 'color',
+            value: '#ffffff'
+          }
+        ]
       })
       //      GridItemsId++;
       this.added = true
@@ -152,7 +166,6 @@ class Items_Class {
             el.y = err.y[0] + 3 + 'px'
             // ** ? **
           })
-          console.log(this.gridLines)
         }
       })
     }
