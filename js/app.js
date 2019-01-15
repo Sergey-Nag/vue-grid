@@ -45,7 +45,8 @@ var app = new Vue({
         {name: 'three', settings: {}},
         {name: 'four', settings: {}},
         {name: 'five', settings: {}}
-      ]
+      ],
+      connect: []
     }
   },
   methods: {
