@@ -39,18 +39,10 @@
       <div class="workspace" id="grid_wrapp" ref="scrollWrapp">
         <div class="svg_wrapp" id="grid">
           <svg id="grid-map" v-bind:style="{height: grid.height + 'px', width: grid.width+'px'}" shape-rendering="optimizeSpeed">
-           
-            <line class="line" v-for="(line,i) in Lines.top"
-              :x1="0" :x2="grid.width"
-              :y1="line.pos" :y2="line.pos"
-              :id="'Y-Line__'+i"
-             ></line>
-            <line class="line" v-for="(line,i) in Lines.left"
-              :y1="0" :y2="grid.height"
-              :x1="line.pos" :x2="line.pos"
-              :id="'X-Line__'+i"
-              ></line>
-              
+
+            <line class="line" v-for="(line,i) in Lines.top" :x1="0" :x2="grid.width" :y1="line.pos" :y2="line.pos" :id="'Y-Line__'+i"></line>
+            <line class="line" v-for="(line,i) in Lines.left" :y1="0" :y2="grid.height" :x1="line.pos" :x2="line.pos" :id="'X-Line__'+i"></line>
+
           </svg>
           <div class="grid-item-wrapp">
 
@@ -59,6 +51,31 @@
 
           </div>
         </div>
+      </div>
+      <div class="right_menu">
+        <div class="right_wrapp">
+          <h2>{{focusItem.name}}</h2>
+          <div class="line"></div>
+          <div class="wrapp_items">
+            <p class="description">{{focusItem.description}}</p>
+            <span class="type">{{focusItem.type}}</span>
+          </div>
+          <div class="line"></div>
+          <div class="wrapp_settings">
+            <div class="setting f-roboto" v-for="item in focusItem.params">
+              <span class="name">{{item.name}}:</span> <input type="text">
+            </div>
+          </div>
+          <div class="line"></div>
+          <div class="wrapp_controlls">
+            <button class="theme full">ss</button>
+          </div>
+        </div>
+      </div>
+      <div class="right-top_menu">
+        <div class="block_top"></div>
+        <div class="block_top"></div>
+        <div class="block_top"></div>
       </div>
     </div>
   </div>

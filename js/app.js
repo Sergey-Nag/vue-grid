@@ -11,8 +11,8 @@ var app = new Vue({
       height: 0
     },
     lines: {
-      x: 50, // height
-      y: 50, // width
+      x: 100, // height
+      y: 100, // width
       step: 20
     },
     Lines: new Lines_Class(),
@@ -34,6 +34,18 @@ var app = new Vue({
       y: 0,
       down: false,
       target: false
+    },
+    focusItem: {
+      name: 'Template',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum nobis debitis aperiam ad quod saepe hic, odio odit.',
+      type: 'variable',
+      params: [
+        {name: 'one', settings: {}},
+        {name: 'two', settings: {}},
+        {name: 'three', settings: {}},
+        {name: 'four', settings: {}},
+        {name: 'five', settings: {}}
+      ]
     }
   },
   methods: {

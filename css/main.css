@@ -1,4 +1,9 @@
+.f-roboto {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
 .left_menu,
+.right_menu,
 .workspace {
   background: #fff;
   border-radius: 3px;
@@ -6,6 +11,7 @@
 }
 
 .workspace {
+  position: relative;
   overflow: scroll;
   box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.15);
 }
@@ -15,7 +21,64 @@
   height: auto;
   display: grid;
   grid-column-gap: 10px;
-  grid-template-columns: 200px auto;
+  grid-template-columns: 200px auto 220px 25px;
+}
+
+.right-top_menu {
+  display: grid;
+  grid-auto-rows: 25px;
+  grid-row-gap: 5px;
+}
+
+p.description {
+  padding: 10px 0;
+  font-size: .92em;
+}
+
+.right_menu .wrapp_items {
+  margin-bottom: 10px;
+}
+
+.wrapp_settings,
+.wrapp_controlls {
+  margin: 10px 0;  
+}
+
+.setting {
+  margin-bottom: 5px;
+}
+
+.setting .name {
+  background: #f7f7f7;
+  padding-left: 2px;
+  font-size: 1.05em;
+  margin-right: 2px;
+  border-left: 2px solid #b1b1b1;
+}
+
+.setting input {
+  padding: 5px;
+  border: 1px solid #cdcaca;
+  border-left: 2px solid #b1b1b1;
+}
+
+/*
+.setting:last-child {
+  margin-bottom: 10px;
+}
+*/
+
+span.type::before {
+  content: 'TYPE: ';
+  font-family: 'Roboto Condensed', sans-serif;
+  background: #f7f7f7;
+  padding-left: 2px;
+  margin-right: 2px;
+  border-left: 2px solid #b1b1b1;
+}
+
+.block_top:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .grid_wrapp {
@@ -43,8 +106,15 @@ div.theme {
   stroke-width: 1px;
 }
 
-.left_menu {
+.left_menu,
+.right_menu {
   padding: 10px;
+}
+
+.right_menu .line {
+  width: 100%;
+  height: 1px;
+  background: #cdcaca;
 }
 
 .line_h_wrapp {
@@ -122,4 +192,13 @@ div.theme {
   top: 0;
   width: 100%;
   height: inherit;
+}
+
+.info-block {
+  width: 200px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background: grey;
 }

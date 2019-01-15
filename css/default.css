@@ -46,6 +46,16 @@ h6 {
   font-family: 'Roboto Condensed', sans-serif;
 }
 
+button.theme {
+  border: 1px solid #cdcaca;
+  background: #ffffff;
+  padding: 5px;
+}
+
+button.theme.full {
+  width: 100%;
+}
+
 input.theme {
   border: none;
   padding: 4px;
